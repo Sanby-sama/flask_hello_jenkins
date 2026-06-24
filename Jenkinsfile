@@ -36,6 +36,10 @@ spec:
         REGISTRY_IP = '192.168.49.2'   // Change avec ton IP minikube
     }
 
+    triggers {
+        pollSCM('* * * * *')   // Vérifie toutes les minutes
+    }
+    
     stages {
         stage('Test python') {
             steps {
