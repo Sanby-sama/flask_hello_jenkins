@@ -23,5 +23,9 @@ class TestHello(unittest.TestCase):
         self.assertEqual(rv.status, '200 OK')
         self.assertIn(bytes(f'{name}', 'utf-8'), rv.data)
 
+    def test_new_route(self):
+        rv = self.app.get('/feature/simon')
+        self.assertEqual(rv.status, '200 OK')
+
 if __name__ == '__main__':
     unittest.main()
