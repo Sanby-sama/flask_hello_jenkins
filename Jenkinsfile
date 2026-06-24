@@ -32,6 +32,10 @@ spec:
         }
     }
 
+    environment {
+        REGISTRY_IP = '192.168.49.2'   // ←←← CHANGE ÇA avec ton IP minikube
+    }
+
     stages {
         stage('Test python') {
             steps {
@@ -45,13 +49,8 @@ spec:
         stage('Build image') {
             steps {
                 container('docker') {
-                    script {
-                        def minikubeIp = sh(script: 'minikube ip', returnStdout: true).trim()
-                        sh """
-                            docker build -t ${minikubeIp}:4000/flask_hello:latest .
-                            docker push ${minikubeIp}:4000/flask_hello:latest
-                        """
-                    }
+                    sh "docker build -t ${REGISTRY_IP}:4000/flask_hello:latest ."
+                    sh "docker push ${REGISTRY_IP}:4000/flask_hello:latest"
                 }
             }
         }
