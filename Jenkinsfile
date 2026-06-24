@@ -65,5 +65,13 @@ spec:
                 }
             }
         }
+
+        stage('Debug Files') {
+            steps {
+                sh 'ls -la'
+                sh 'ls -la kubernetes/'
+                sh 'pwd'
+            }
+        }
     }
 }
