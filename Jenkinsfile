@@ -33,7 +33,7 @@ spec:
     }
 
     environment {
-        REGISTRY_IP = '192.168.49.2'   // ←←← CHANGE ÇA avec ton IP minikube
+        REGISTRY_IP = '192.168.49.2'   // ← CHANGE avec ton IP (minikube ip)
     }
 
     stages {
@@ -49,19 +49,9 @@ spec:
         stage('Build image') {
             steps {
                 container('docker') {
-                    sh """
-                        docker build -t flask_hello:latest .
-                        echo "Image built successfully (push skipped for now)"
-                    """
+                    sh "docker build -t ${REGISTRY_IP}:4000/flask_hello:latest ."
+                    sh "docker push ${REGISTRY_IP}:4000/flask_hello:latest"
                 }
-            }
-        }
-        
-        stage('Debug Files') {
-            steps {
-                sh 'ls -la'
-                sh 'ls -la kubernetes/'
-                sh 'pwd'
             }
         }
         
@@ -73,7 +63,5 @@ spec:
                 }
             }
         }
-
-        
     }
 }
