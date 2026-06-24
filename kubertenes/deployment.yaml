@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: flask-hello
-        image: 192.168.49.2:4000/flask_hello:latest
+        image: python:3.7
         ports:
         - containerPort: 5000

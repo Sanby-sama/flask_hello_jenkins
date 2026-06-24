@@ -49,8 +49,10 @@ spec:
         stage('Build image') {
             steps {
                 container('docker') {
-                    sh "docker build -t ${REGISTRY_IP}:4000/flask_hello:latest ."
-                    sh "docker push ${REGISTRY_IP}:4000/flask_hello:latest"
+                    sh """
+                        docker build -t flask_hello:latest .
+                        echo "Image built successfully (push skipped for now)"
+                    """
                 }
             }
         }
