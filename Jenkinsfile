@@ -33,7 +33,7 @@ spec:
     }
 
     environment {
-        REGISTRY_IP = '192.168.49.2'   // ← CHANGE avec ton IP (minikube ip)
+        REGISTRY_IP = '192.168.49.2'   // ← Change avec ton IP minikube
     }
 
     stages {
@@ -49,8 +49,10 @@ spec:
         stage('Build image') {
             steps {
                 container('docker') {
-                    sh "docker build -t ${REGISTRY_IP}:4000/flask_hello:latest ."
-                    sh "docker push ${REGISTRY_IP}:4000/flask_hello:latest"
+                    sh """
+                        docker build -t ${REGISTRY_IP}:4000/flask_hello:latest .
+                        docker push --insecure-registry ${REGISTRY_IP}:4000/flask_hello:latest
+                    """
                 }
             }
         }
