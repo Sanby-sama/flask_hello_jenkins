@@ -45,8 +45,13 @@ spec:
         stage('Build image') {
             steps {
                 container('docker') {
-                    sh "docker build -t localhost:4000/flask_hello:latest ."
-                    sh "docker push localhost:4000/flask_hello:latest"
+                    script {
+                        def minikubeIp = sh(script: 'minikube ip', returnStdout: true).trim()
+                        sh """
+                            docker build -t ${minikubeIp}:4000/flask_hello:latest .
+                            docker push ${minikubeIp}:4000/flask_hello:latest
+                        """
+                    }
                 }
             }
         }
