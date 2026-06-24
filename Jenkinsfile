@@ -57,6 +57,14 @@ spec:
             }
         }
         
+        stage('Debug Files') {
+            steps {
+                sh 'ls -la'
+                sh 'ls -la kubernetes/'
+                sh 'pwd'
+            }
+        }
+        
         stage('Deploy') {
             steps {
                 container('kubectl') {
@@ -66,12 +74,6 @@ spec:
             }
         }
 
-        stage('Debug Files') {
-            steps {
-                sh 'ls -la'
-                sh 'ls -la kubernetes/'
-                sh 'pwd'
-            }
-        }
+        
     }
 }
