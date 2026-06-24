@@ -20,6 +20,10 @@ spec:
     volumeMounts:
     - mountPath: /var/run/docker.sock
       name: docker-sock
+  - name: kubectl
+    image: lachlanevenson/k8s-kubectl:v1.17.2
+    command: ["cat"]
+    tty: true
   volumes:
   - name: docker-sock
     hostPath:
@@ -34,6 +38,24 @@ spec:
                 container('python') {
                     sh "pip install -r requirements.txt"
                     sh "python test.py"
+                }
+            }
+        }
+        
+        stage('Build image') {
+            steps {
+                container('docker') {
+                    sh "docker build -t localhost:4000/flask_hello:latest ."
+                    sh "docker push localhost:4000/flask_hello:latest"
+                }
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                container('kubectl') {
+                    sh "kubectl apply -f kubernetes/deployment.yaml"
+                    sh "kubectl apply -f kubernetes/service.yaml"
                 }
             }
         }
